@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Awis Sleep Playlist</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Menu principal">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.25-9.3C.95 7.75 3.25 4 7.1 4c2.05 0 3.55 1.15 4.9 2.95C13.35 5.15 14.85 4 16.9 4c3.85 0 6.15 3.75 4.35 7.7C19 16.65 12 21 12 21Z"/></svg>
+          </div>
+          <div>
+            <p>Awis</p>
+            <h1>Sleep Playlist</h1>
+          </div>
+        </div>
+
+        <nav class="nav-list" aria-label="Filtros">
+          <button class="nav-item active" id="allTab" type="button">
+            <svg viewBox="0 0 24 24"><path d="M4 6.5h16M4 12h16M4 17.5h10"/></svg>
+            <span>Biblioteca</span>
+          </button>
+          <button class="nav-item" id="favoritesTab" type="button">
+            <svg viewBox="0 0 24 24"><path d="m12 3.5 2.55 5.16 5.7.83-4.13 4.02.98 5.67L12 16.5l-5.1 2.68.98-5.67-4.13-4.02 5.7-.83L12 3.5Z"/></svg>
+            <span>Favoritos</span>
+          </button>
+          <button class="nav-item" id="adminToggle" type="button">
+            <svg viewBox="0 0 24 24"><path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.05.05a2 2 0 0 1-2.83 2.83l-.05-.05a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.17a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.05.05a2 2 0 0 1-2.83-2.83l.05-.05A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.05-.05A2 2 0 1 1 7.05 4.3l.05.05A1.65 1.65 0 0 0 8.92 4a1.65 1.65 0 0 0 1-1.51V2a2 2 0 0 1 4 0v.49a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.05-.05a2 2 0 0 1 2.83 2.83l-.05.05A1.65 1.65 0 0 0 19.4 9c.14.59.61 1 1.2 1H21a2 2 0 0 1 0 4h-.4c-.59 0-1.06.41-1.2 1Z"/></svg>
+            <span>Admin</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-card">
+          <p class="eyebrow">Modo noche</p>
+          <p>Un rinconcito suave para escuchar tu voz y bajar el ritmo.</p>
+        </div>
+      </aside>
+
+      <main class="content">
+        <section class="hero">
+          <div>
+            <p class="eyebrow">Buenas noches, awis</p>
+            <h2>Cuentos para dormir</h2>
+            <p>Elige una grabación tranquila, marca favoritos y deja que el timer apague todo cuando sea hora de descansar.</p>
+          </div>
+          <div class="pill" id="storyCount">0 cuentos</div>
+        </section>
+
+        <section class="admin-panel hidden" id="adminPanel" aria-label="Panel de administrador">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Modo admin</p>
+              <h3>Agregar audio</h3>
+            </div>
+            <button class="soft-button" id="lockAdmin" type="button">
+              <svg viewBox="0 0 24 24"><path d="M18 11H6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1Z"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+              Bloquear
+            </button>
+          </div>
+
+          <form class="admin-form" id="storyForm">
+            <label class="file-picker" for="audioFileInput">
+              <input id="audioFileInput" name="audioFile" type="file" accept="audio/*" />
+              <span class="file-plus" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+              </span>
+              <span class="file-title" id="filePickerTitle">Elegir archivo</span>
+              <span class="file-meta" id="filePickerMeta">Selecciona un audio de tu computadora</span>
+            </label>
+
+            <label for="titleInput">Título</label>
+            <input id="titleInput" name="title" maxlength="120" placeholder="La luna que se quedó despierta" required />
+            <p class="helper-text" id="uploadHint">El audio se guardará en Firebase Realtime Database al agregar el cuento.</p>
+
+            <div class="form-actions">
+              <button class="primary-button" id="submitStory" type="submit">
+                <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+                Agregar cuento
+              </button>
+              <button class="soft-button hidden" id="cancelEdit" type="button">Cancelar</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="library-panel" aria-label="Biblioteca de cuentos">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow" id="listEyebrow">Biblioteca</p>
+              <h3 id="listTitle">Todos los cuentos</h3>
+            </div>
+          </div>
+          <div class="story-list" id="storyList" aria-live="polite"></div>
+        </section>
+      </main>
+
+      <footer class="player" aria-label="Reproductor">
+        <audio id="audioPlayer" preload="metadata"></audio>
+
+        <div class="now-playing">
+          <div class="cover-art" aria-hidden="true">
+            <!-- Icono de nota musical corregido -->
+            <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+          </div>
+          <div>
+            <p class="eyebrow">Ahora suena</p>
+            <h3 id="currentTitle">Elige un cuento</h3>
+          </div>
+        </div>
+
+        <div class="player-controls">
+          <div class="transport">
+            <button class="round-button" id="back10" type="button" aria-label="Retroceder 10 segundos" title="Retroceder 10 segundos">
+              <svg viewBox="0 0 24 24"><path d="M11 7 7 3 3 7"/><path d="M7 3v9a7 7 0 1 0 7-7"/><text x="10.2" y="15.4">10</text></svg>
+            </button>
+            <button class="play-button" id="playPause" type="button" aria-label="Reproducir o pausar" title="Reproducir">
+              <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7Z"/></svg>
+            </button>
+            <button class="round-button" id="forward10" type="button" aria-label="Adelantar 10 segundos" title="Adelantar 10 segundos">
+              <svg viewBox="0 0 24 24"><path d="m13 7 4-4 4 4"/><path d="M17 3v9a7 7 0 1 1-7-7"/><text x="7.6" y="15.4">10</text></svg>
+            </button>
+          </div>
+
+          <div class="progress-row">
+            <span id="currentTime">0:00</span>
+            <input id="progressBar" type="range" min="0" max="100" value="0" step="0.1" aria-label="Progreso del audio" />
+            <span id="duration">0:00</span>
+          </div>
+        </div>
+
+        <div class="sleep-timer">
+          <label for="timerSelect">
+            <svg viewBox="0 0 24 24"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg>
+            Timer
+            <span id="timerCountdown" class="timer-countdown hidden"></span>
+          </label>
+          <select id="timerSelect">
+            <option value="0">Apagado</option>
+            <option value="15">15 min</option>
+            <option value="30">30 min</option>
+            <option value="45">45 min</option>
+            <option value="60">60 min</option>
+          </select>
+        </div>
+      </footer>
+    </div>
+
+    <div class="modal-backdrop hidden" id="pinModal" aria-hidden="true">
+      <section class="pin-modal" role="dialog" aria-modal="true" aria-labelledby="pinTitle">
+        <button class="modal-close" id="closePinModal" type="button" aria-label="Cerrar">
+          <svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+        <p class="eyebrow">Modo privado</p>
+        <h2 id="pinTitle">Entrar a Admin</h2>
+        <p class="muted">Escribe el PIN para cuidar la biblioteca de cuentos.</p>
+        <form class="admin-form" id="pinForm">
+          <label for="pinInput">PIN</label>
+          <input id="pinInput" name="pin" type="password" inputmode="numeric" autocomplete="off" placeholder="1234" />
+          <button class="primary-button" type="submit">
+            <svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
+            Desbloquear
+          </button>
+        </form>
+      </section>
+    </div>
+
+    <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
